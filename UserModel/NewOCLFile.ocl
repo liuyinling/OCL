@@ -1,0 +1,45 @@
+import 'UserModel.uml'
+
+package UserModel
+
+context EnvironmentRequirement
+inv environment_requirement_specification:
+self.oclIsTypeOf(EnvironmentRequirement) implies
+self.postcondition.oclIsTypeOf(AttributeCondition)
+
+context ModeTransition
+inv mode_transition_specification:
+self.oclIsTypeOf(Mode) implies 
+self.precondition.oclIsTypeOf(ModeCondition) and 
+self.guard.oclIsTypeOf(SignalCondition) and 
+self.postcondition.oclIsTypeOf(ModeCondition) 
+
+context StateTransition
+inv state_transition_specification:
+self.oclIsTypeOf(State) implies
+self.precondition.oclIsTypeOf(StateCondition) and
+self.guard.oclIsKindOf(Condition) and not
+self.guard.oclIsTypeOf(ArithmaticCondition) and not 
+self.guard.oclIsTypeOf(StateCondition) and
+self.postcondition.oclIsTypeOf(StateCondition)
+
+context AttributeConstraint
+inv attribute_constraint_specification:
+self.oclIsTypeOf(AttributeConstraint) implies 
+self.precondition.oclIsKindOf(Condition) and not
+self.precondition.oclIsTypeOf(ArithmaticCondition) and
+self.postcondition.oclIsTypeOf(AttributeCondition) or
+self.postcondition.oclIsTypeOf(ArithmaticCondition)
+
+context PropertyConstraint
+inv property_constraint_specification:
+self.oclIsTypeOf(PropertyConstraint) implies 
+self.precondition.oclIsKindOf(Condition) and not 
+self.precondition.oclIsTypeOf(SignalCondition) and not 
+self.precondition.oclIsTypeOf(ArithmaticCondition) and 
+self.postcondition.oclIsKindOf(Condition) and not 
+self.postcondition.oclIsTypeOf(SignalCondition) and not 
+self.postcondition.oclIsTypeOf(ArithmaticCondition) and 
+self.preOperator.oclIsKindOf(LogicOperator) and
+self.postOperator.oclIsKindOf(LogicOperator)
+endpackage
